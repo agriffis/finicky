@@ -102,19 +102,7 @@ echo "::endgroup::"
 
 echo "::group:: Install Noctalia Shell"
 
-# imagemagick, python3, and git are required by noctalia-shell for
-# template processing, wallpaper resizing, update-checking, and the
-# plugin system (https://docs.noctalia.dev/getting-started/installation/).
-dnf5 install -y \
-    noctalia-shell \
-    imagemagick \
-    python3 \
-    git \
-    gnome-keyring \
-    cliphist \
-    polkit-kde \
-    xdg-desktop-portal-gtk \
-    ghostty
+dnf5 install -y noctalia-shell
 
 echo "::endgroup::"
 
