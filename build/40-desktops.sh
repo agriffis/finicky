@@ -10,8 +10,8 @@ set -eoux pipefail
 # audited, enabled, or disabled independently.
 #
 # Desktops included:
-#   - Niri   (scrollable-tiling Wayland compositor by YaLTeR)
-#   - Noctua (Wayfire-based compositor with a nocturnal/dark aesthetic)
+#   - Niri     (scrollable-tiling Wayland compositor by YaLTeR)
+#   - Noctalia (shell layer for niri from Fyra Labs)
 ###############################################################################
 
 # Source helper functions
@@ -77,39 +77,70 @@ systemctl --global enable xdg-desktop-portal.service
 echo "::endgroup::"
 
 ###############################################################################
-# Noctua - Dark-aesthetic Wayfire-based Wayland compositor
-# https://github.com/WayfireWM/wayfire
-# Noctua installs Wayfire together with the wcm configuration manager and
-# a curated set of plugins that together form the "noctua" experience:
-# smooth animations, a dark panel, and a tiling layout plugin.
+# Noctalia - Shell layer for niri by Fyra Labs
+# https://docs.noctalia.dev/
+# Noctalia provides a polished top-bar, launcher, notification daemon, and
+# supporting infrastructure that turns the bare niri compositor into a
+# complete desktop experience.  It is distributed through the Terra
+# repository maintained by Fyra Labs.
 ###############################################################################
 
-echo "::group:: Install Noctua (Wayfire) Compositor"
+echo "::group:: Add Terra Repository"
 
-# Wayfire and its companion config manager (wcm) are in the Fedora repos;
-# the COPR repo by the upstream author ships newer snapshots when needed.
-copr_install_isolated "soreau/wayfire" \
-    wayfire \
-    wayfire-plugins-extra \
-    wcm
+# Terra is a community Fedora-compatible repo by Fyra Labs.
+# We add it, install what we need, then remove the repo file so it does
+# not persist into the running system (same pattern as other third-party
+# repos in this build).
+dnf5 config-manager addrepo \
+    --from-repofile=https://terra.fyralabs.com/terra.repo
 
 echo "::endgroup::"
 
-echo "::group:: Install Noctua Companion Tools"
+echo "::group:: Install Noctalia Shell"
 
-# waybar, mako, and the screenshot/wallpaper stack are shared with Niri
-# above; dnf5 is idempotent so reinstalling them is harmless.  We list
-# the Wayfire-specific extras separately so the intent is clear.
 dnf5 install -y \
-    wf-shell \
-    xdg-desktop-portal-wlr
+    noctalia-shell \
+    gnome-keyring \
+    cliphist \
+    polkit-kde \
+    xdg-desktop-portal-gtk \
+    ghostty
 
 echo "::endgroup::"
 
-echo "::group:: Configure Noctua systemd user service"
+echo "::group:: Remove Terra Repository"
 
-# Enable the wlr portal so that screencasting works in Wayfire sessions.
-systemctl --global enable xdg-desktop-portal-wlr.service
+# Remove the terra repo file so it does not appear in the deployed system.
+# Repos do not function at runtime in bootc images anyway.
+rm -f /etc/yum.repos.d/terra.repo
+
+echo "::endgroup::"
+
+echo "::group:: Configure Noctalia systemd user services"
+
+# polkit-kde-authentication-agent-1 must run inside the niri graphical
+# session so that privilege-elevation dialogs work.  We ship a small user
+# service unit and wire it into niri.service via add-wants so it starts
+# automatically whenever niri does.
+mkdir -p /usr/lib/systemd/user
+
+cat > /usr/lib/systemd/user/plasma-polkit-agent.service << 'UNIT'
+[Unit]
+Description=KDE PolicyKit Authentication Agent
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/libexec/kf6/polkit-kde-authentication-agent-1
+BusName=org.kde.polkit-kde-authentication-agent-1
+Slice=background.slice
+TimeoutStopSec=5sec
+Restart=on-failure
+UNIT
+
+# Start mako (notifications) and the polkit agent whenever niri starts.
+systemctl --global add-wants niri.service mako.service
+systemctl --global add-wants niri.service plasma-polkit-agent.service
 
 echo "::endgroup::"
 
