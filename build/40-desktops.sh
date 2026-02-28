@@ -116,29 +116,8 @@ echo "::endgroup::"
 
 echo "::group:: Configure Noctalia systemd user services"
 
-# polkit-kde-authentication-agent-1 must run inside the niri graphical
-# session so that privilege-elevation dialogs work.  We ship a small user
-# service unit and wire it into niri.service via add-wants so it starts
-# automatically whenever niri does.
-mkdir -p /usr/lib/systemd/user
-
-cat > /usr/lib/systemd/user/plasma-polkit-agent.service << 'UNIT'
-[Unit]
-Description=KDE PolicyKit Authentication Agent
-PartOf=graphical-session.target
-After=graphical-session.target
-
-[Service]
-ExecStart=/usr/libexec/kf6/polkit-kde-authentication-agent-1
-BusName=org.kde.polkit-kde-authentication-agent-1
-Slice=background.slice
-TimeoutStopSec=5sec
-Restart=on-failure
-UNIT
-
-# Start mako (notifications) and the polkit agent whenever niri starts.
+# Start mako (notifications) whenever niri starts.
 systemctl --global add-wants niri.service mako.service
-systemctl --global add-wants niri.service plasma-polkit-agent.service
 
 echo "::endgroup::"
 
