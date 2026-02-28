@@ -88,18 +88,28 @@ echo "::endgroup::"
 echo "::group:: Add Terra Repository"
 
 # Terra is a community Fedora-compatible repo by Fyra Labs.
-# We add it, install what we need, then remove the repo file so it does
-# not persist into the running system (same pattern as other third-party
-# repos in this build).
-dnf5 config-manager addrepo \
-    --from-repofile=https://terra.fyralabs.com/terra.repo
+# The official installation method bootstraps the repo by installing
+# terra-release from a temporary --repofrompath repo (see
+# https://docs.noctalia.dev/getting-started/installation/).
+# We remove the repo files afterwards so they do not persist into the
+# running system (same pattern as other third-party repos in this build).
+RELEASEVER=$(rpm -E '%{fedora}')
+dnf5 install -y --nogpgcheck \
+    --repofrompath "terra,https://repos.fyralabs.com/terra${RELEASEVER}" \
+    terra-release
 
 echo "::endgroup::"
 
 echo "::group:: Install Noctalia Shell"
 
+# imagemagick, python3, and git are required by noctalia-shell for
+# template processing, wallpaper resizing, update-checking, and the
+# plugin system (https://docs.noctalia.dev/getting-started/installation/).
 dnf5 install -y \
     noctalia-shell \
+    imagemagick \
+    python3 \
+    git \
     gnome-keyring \
     cliphist \
     polkit-kde \
@@ -110,9 +120,9 @@ echo "::endgroup::"
 
 echo "::group:: Remove Terra Repository"
 
-# Remove the terra repo file so it does not appear in the deployed system.
+# terra-release may drop more than one .repo file; glob to catch them all.
 # Repos do not function at runtime in bootc images anyway.
-rm -f /etc/yum.repos.d/terra.repo
+rm -f /etc/yum.repos.d/terra*.repo
 
 echo "::endgroup::"
 
