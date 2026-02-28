@@ -3,7 +3,7 @@
 ## Initial Setup
 
 ### 1. Rename Template
-- [ ] Update `finpilot` to your name in: Containerfile, Justfile, README.md, artifacthub-repo.yml
+- [x] Updated `finpilot` to `finicky` in: Containerfile, Justfile, README.md, artifacthub-repo.yml, clean.yml, custom/ujust/README.md
 
 ### 2. Enable GitHub Actions
 - [ ] Settings → Actions → General → Enable workflows
@@ -18,7 +18,7 @@ git push origin main
 
 ### 4. Deploy
 ```bash
-sudo bootc switch --transport registry ghcr.io/YOUR_USERNAME/YOUR_REPO:stable
+sudo bootc switch --transport registry ghcr.io/agriffis/finicky:stable
 sudo systemctl reboot
 ```
 
