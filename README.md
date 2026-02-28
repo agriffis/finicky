@@ -1,26 +1,25 @@
-# finpilot
+# finicky
 
-A template for building custom bootc operating system images based on the lessons from [Universal Blue](https://universal-blue.org/) and [Bluefin](https://projectbluefin.io). It is designed to be used manually, but is optimized to be bootstraped by GitHub Copilot. After set up you'll have your own custom Linux. 
+A custom bootc operating system image based on the lessons from [Universal Blue](https://universal-blue.org/) and [Bluefin](https://projectbluefin.io), built from the [finpilot](https://github.com/projectbluefin/finpilot) template.
 
-This template uses the **multi-stage build architecture** from , combining resources from multiple OCI containers for modularity and maintainability. See the [Architecture](#architecture) section below for details.
+This image uses the **multi-stage build architecture** from @projectbluefin/distroless, combining resources from multiple OCI containers for modularity and maintainability.
 
-**Unlike previous templates, you are not modifying Bluefin and making changes.**: You are assembling your own Bluefin in the same exact way that Bluefin, Aurora, and Bluefin LTS are built. This is way more flexible and better for everyone since the image-agnostic and desktop things we love about Bluefin lives in @projectbluefin/common. 
+## What Makes this Raptor Different?
 
- Instead, you create your own OS repository based on this template, allowing full customization while leveraging Bluefin's robust build system and shared components.
+Here are the changes from the base silverblue-main image. This image uses Bluefin's build patterns (silverblue-main + GNOME) and includes these customizations:
 
-> Be the one who moves, not the one who is moved.
+### Added Packages (Build-time)
+- None added yet — see `build/10-build.sh` to add system packages with `dnf5 install -y`
 
-## Guided Copilot Mode
+### Added Applications (Runtime)
+- **CLI Tools (Homebrew)**: None added yet — see `custom/brew/default.Brewfile` to add CLI tools
+- **GUI Apps (Flatpak)**: None added yet — see `custom/flatpaks/default.preinstall` to add GUI apps
 
-Here are the steps to guide copilot to make your own repo, or just use it like a regular image template.
+### Configuration Changes
+- Uses `@projectbluefin/common` desktop configuration shared with Bluefin/Aurora
+- Homebrew integration via `@ublue-os/brew`
 
-1. Click the green "Use this as a template" button and create a new repository
-2. Select your owner, pick a repo name for your OS, and a description
-3. In the "Jumpstart your project with Copilot (optional)" add this, modify to your liking:
-
-```
-Use @projectbluefin/finpilot as a template, name the OS the repository name. Ensure the entire operating system is bootstrapped. Ensure all github actions are enabled and running.  Ensure the README has the github setup instructions for cosign and the other steps required to finish the task.
-```
+*Last updated: 2026-02-28*
 
 ## What's Included
 
@@ -61,22 +60,11 @@ Use @projectbluefin/finpilot as a template, name the OS the repository name. Ens
 
 ## Quick Start
 
-### 1. Create Your Repository
+### 1. Repository Setup
 
-Click "Use this template" to create a new repository from this template.
+This repository (`finicky`) has already been initialized from the finpilot template with the correct image name.
 
-### 2. Rename the Project
-
-Important: Change `finpilot` to your repository name in these 6 files:
-
-1. `Containerfile` (line 4): `# Name: your-repo-name`
-2. `Justfile` (line 1): `export image_name := env("IMAGE_NAME", "your-repo-name")`
-3. `README.md` (line 1): `# your-repo-name`
-4. `artifacthub-repo.yml` (line 5): `repositoryID: your-repo-name`
-5. `custom/ujust/README.md` (~line 175): `localhost/your-repo-name:stable`
-6. `.github/workflows/clean.yml` (line 23): `packages: your-repo-name`
-
-### 3. Enable GitHub Actions
+### 2. Enable GitHub Actions
 
 - Go to the "Actions" tab in your repository
 - Click "I understand my workflows, go ahead and enable them"
@@ -85,7 +73,7 @@ Your first build will start automatically!
 
 Note: Image signing is disabled by default. Your images will build successfully without any signing keys. Once you're ready for production, see "Optional: Enable Image Signing" below.
 
-### 4. Customize Your Image
+### 3. Customize Your Image
 
 Choose your base image in `Containerfile` (line 23):
 ```dockerfile
@@ -102,7 +90,7 @@ Customize your apps:
 - Add Flatpaks in `custom/flatpaks/` ([guide](custom/flatpaks/README.md))
 - Add ujust commands in `custom/ujust/` ([guide](custom/ujust/README.md))
 
-### 5. Development Workflow
+### 4. Development Workflow
 
 All changes should be made via pull requests:
 
@@ -114,11 +102,11 @@ All changes should be made via pull requests:
 4. Once checks pass, merge the PR
 5. Merging triggers publishes a `:stable` image
 
-### 6. Deploy Your Image
+### 5. Deploy Your Image
 
 Switch to your image:
 ```bash
-sudo bootc switch ghcr.io/your-username/your-repo-name:stable
+sudo bootc switch ghcr.io/agriffis/finicky:stable
 sudo systemctl reboot
 ```
 
