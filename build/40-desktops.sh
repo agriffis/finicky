@@ -12,6 +12,7 @@ set -eoux pipefail
 # Desktops included:
 #   - Niri     (scrollable-tiling Wayland compositor by YaLTeR)
 #   - Noctalia (shell layer for niri from Fyra Labs)
+#   - Mango    (Wayland compositor by MangoWM)
 ###############################################################################
 
 # Source helper functions
@@ -36,20 +37,9 @@ echo "::group:: Install Niri Companion Tools"
 
 # xwayland-satellite provides seamless Xwayland integration for niri,
 # allowing X11 apps to run as first-class citizens inside the compositor.
-# The remaining packages are the tools niri's own documentation recommends
-# for a usable day-to-day setup.
 dnf5 install -y \
     xwayland-satellite \
     xdg-desktop-portal-gnome \
-    mangowc \
-    fuzzel \
-    mako \
-    foot \
-    swaybg \
-    swaylock \
-    swayidle \
-    grim \
-    slurp \
     wl-clipboard \
     playerctl \
     brightnessctl
@@ -106,18 +96,24 @@ dnf5 install -y noctalia-shell
 
 echo "::endgroup::"
 
+###############################################################################
+# Mango - Wayland compositor by MangoWM
+# https://mangowm.github.io/docs/installation/
+# Mango is available in the Terra repository (same repo used for Noctalia
+# above).  Install it while the repo is still active.
+###############################################################################
+
+echo "::group:: Install Mango Wayland Compositor"
+
+dnf5 install -y mangowc
+
+echo "::endgroup::"
+
 echo "::group:: Remove Terra Repository"
 
 # terra-release may drop more than one .repo file; glob to catch them all.
 # Repos do not function at runtime in bootc images anyway.
 rm -f /etc/yum.repos.d/terra*.repo
-
-echo "::endgroup::"
-
-echo "::group:: Configure Noctalia systemd user services"
-
-# Start mako (notifications) whenever niri starts.
-systemctl --global add-wants niri.service mako.service
 
 echo "::endgroup::"
 
