@@ -87,6 +87,12 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
+    /ctx/build/20-tailscale.sh
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
     /ctx/build/40-desktops.sh
     
 ### LINTING

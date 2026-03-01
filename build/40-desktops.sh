@@ -41,7 +41,7 @@ echo "::group:: Install Niri Companion Tools"
 dnf5 install -y \
     xwayland-satellite \
     xdg-desktop-portal-gnome \
-    waybar \
+    mangowc \
     fuzzel \
     mako \
     foot \
