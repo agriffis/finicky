@@ -49,6 +49,7 @@ dnf5 install -y \
     kitty \
     et \
     neovim \
+    plocate \
     stow \
     syncthing
 
