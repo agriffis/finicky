@@ -31,6 +31,7 @@ dnf5 install -y \
     brightnessctl \
     playerctl \
     wayland-utils \
+    wev \
     wl-clipboard \
     wlr-randr \
     xdg-desktop-portal-gnome \
