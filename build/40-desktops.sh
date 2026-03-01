@@ -28,12 +28,14 @@ echo "::group:: Install helpers"
 # xwayland-satellite provides seamless Xwayland integration for niri,
 # allowing X11 apps to run as first-class citizens inside the compositor.
 dnf5 install -y \
-    xwayland-satellite \
+    brightnessctl \
+    playerctl \
+    wayland-utils \
+    wl-clipboard \
+    wlr-randr \
     xdg-desktop-portal-gnome \
     xdg-desktop-portal-wlr \
-    wl-clipboard \
-    playerctl \
-    brightnessctl
+    xwayland-satellite
 
 echo "::endgroup::"
 
