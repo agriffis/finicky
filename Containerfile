@@ -46,8 +46,7 @@ COPY --from=ghcr.io/projectbluefin/common:latest /system_files /oci/common
 COPY --from=ghcr.io/ublue-os/brew:latest /system_files /oci/brew
 
 # Base Image - GNOME included
-#FROM ghcr.io/ublue-os/silverblue-main:latest
-FROM ghcr.io/ublue-os/bluefin:stable
+FROM ghcr.io/ublue-os/silverblue-main:latest
 
 ## Alternative base images, no desktop included (uncomment to use):
 # FROM ghcr.io/ublue-os/base-main:latest    
@@ -65,7 +64,7 @@ FROM ghcr.io/ublue-os/bluefin:stable
 ## Uncomment the following line if one desires to make /opt immutable and be able to be used
 ## by the package manager.
 
-# RUN rm /opt && mkdir /opt
+#RUN rm /opt && mkdir /opt
 
 ### MODIFICATIONS
 ## Make modifications desired in your image and install packages by modifying the build scripts.
