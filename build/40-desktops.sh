@@ -29,6 +29,7 @@ echo "::group:: Install helpers"
 # allowing X11 apps to run as first-class citizens inside the compositor.
 dnf5 install -y \
     brightnessctl \
+    kanshi \
     playerctl \
     wayland-utils \
     wev \
