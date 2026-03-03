@@ -9,7 +9,14 @@ This image uses the **multi-stage build architecture** from @projectbluefin/dist
 Here are the changes from the base silverblue-main image. This image uses Bluefin's build patterns (silverblue-main + GNOME) and includes these customizations:
 
 ### Added Packages (Build-time)
-- None added yet — see `build/10-build.sh` to add system packages with `dnf5 install -y`
+- **Core Tools** (`10-build.sh`): gnome-pomodoro, kitty, et, neovim, stow, syncthing
+- **Networking** (`20-tailscale.sh`): Tailscale VPN client with tailscaled daemon
+- **Security** (`21-keybase.sh`): Keybase encrypted messaging and filesystem
+- **Wayland Compositors** (`40-desktops.sh`): 
+  - Niri (scrollable-tiling compositor from COPR yalter/niri)
+  - Mango (MangoWM compositor from Terra repository)
+  - Noctalia Shell (niri shell layer from Terra repository)
+- **Desktop Helpers** (`40-desktops.sh`): brightnessctl, kanshi, playerctl, wayland-utils, wev, wl-clipboard, wlr-randr, xdg-desktop-portal-gnome, xdg-desktop-portal-wlr, xwayland-satellite
 
 ### Added Applications (Runtime)
 - **CLI Tools (Homebrew)**: None added yet — see `custom/brew/default.Brewfile` to add CLI tools
