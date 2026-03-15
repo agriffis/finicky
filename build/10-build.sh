@@ -48,10 +48,14 @@ dnf5 install -y \
     gnome-pomodoro \
     kitty \
     et \
-    neovim \
     plocate \
     stow \
     syncthing
+
+# Install neovim and tree-sitter from agriffis/neovim-nightly COPR
+copr_install_isolated "agriffis/neovim-nightly" \
+    neovim \
+    tree-sitter
 
 echo "::endgroup::"
 
