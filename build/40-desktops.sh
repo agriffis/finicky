@@ -111,4 +111,19 @@ rm -f /etc/yum.repos.d/terra*.repo
 
 echo "::endgroup::"
 
+###############################################################################
+# Miracle-WM - Tiling Wayland compositor based on Mir
+# https://wiki.miracle-wm.org/latest/
+# Miracle-WM is available directly from the Fedora repository; no COPR
+# required.  It integrates with GDM and other display managers via a standard
+# Wayland session .desktop file so users can select "Miracle" at the login
+# screen.
+###############################################################################
+
+echo "::group:: Install Miracle-WM Wayland Compositor"
+
+dnf5 install -y miracle-wm
+
+echo "::endgroup::"
+
 echo "Desktop build complete!"
