@@ -57,6 +57,10 @@ copr_install_isolated "agriffis/neovim-nightly" \
     neovim \
     tree-sitter
 
+# Install mise from jdx/mise COPR
+copr_install_isolated "jdx/mise" \
+    mise
+
 echo "::endgroup::"
 
 echo "::group:: System Configuration"
