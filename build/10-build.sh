@@ -48,7 +48,6 @@ dnf5 install -y \
     gnome-pomodoro \
     kitty \
     et \
-    plocate \
     stow \
     syncthing
 
