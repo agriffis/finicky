@@ -26,4 +26,7 @@ dnf5 install -y keybase
 # Clean up repo file (required - repos don't work at runtime in bootc images)
 rm -f /etc/yum.repos.d/keybase.repo
 
+# Disable the root redirector, becuase it's buggy and hangs the system
+chmod a-sx /usr/bin/keybase-redirector
+
 echo "Keybase installed successfully"
