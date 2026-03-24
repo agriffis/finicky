@@ -56,6 +56,10 @@ copr_install_isolated "agriffis/neovim-nightly" \
     neovim \
     tree-sitter
 
+# Install ghostty from agriffis/ghostty-nightly COPR
+copr_install_isolated "agriffis/ghostty-nightly" \
+    ghostty
+
 # Install mise from jdxcode/mise COPR
 copr_install_isolated "jdxcode/mise" \
     mise
