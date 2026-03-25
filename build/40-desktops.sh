@@ -126,4 +126,20 @@ dnf5 install -y miracle-wm
 
 echo "::endgroup::"
 
+###############################################################################
+# Sway - Tiling Wayland compositor (i3-compatible)
+# https://swaywm.org/
+# Sway is available directly from the Fedora repository; no COPR required.
+# It integrates with GDM and other display managers via a standard Wayland
+# session .desktop file so users can select "Sway" at the login screen.
+# Waybar and other commonly recommended additions are intentionally omitted
+# here because Noctalia already provides the shell layer.
+###############################################################################
+
+echo "::group:: Install Sway Wayland Compositor"
+
+dnf5 install -y sway
+
+echo "::endgroup::"
+
 echo "Desktop build complete!"
