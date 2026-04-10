@@ -66,6 +66,21 @@ copr_install_isolated "agriffis/ghostty-nightly" \
 copr_install_isolated "jdxcode/mise" \
     mise
 
+# Install Hyprland and related packages from lionheartp/Hyprland COPR
+copr_install_isolated "lionheartp/Hyprland" \
+    hyprland \
+    hyprpolkitagent \
+    xdg-desktop-portal-hyprland \
+    hyprland-contrib \
+    hyprland-plugins \
+    hyprpicker \
+    hypridle \
+    hyprlock \
+    hyprsunset \
+    hyprsysteminfo \
+    hyprshot \
+    uwsm
+
 echo "::endgroup::"
 
 echo "::group:: System Configuration"
