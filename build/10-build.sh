@@ -79,10 +79,6 @@ copr_install_isolated "lionheartp/Hyprland" \
     hyprsunset \
     hyprsysteminfo \
     hyprshot \
-    hyprnome \
-    hyprdim \
-    satty \
-    pyprland \
     uwsm
 
 echo "::endgroup::"
