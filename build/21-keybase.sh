@@ -29,4 +29,7 @@ rm -f /etc/yum.repos.d/keybase.repo
 # Disable the root redirector, becuase it's buggy and hangs the system
 chmod a-sx /usr/bin/keybase-redirector
 
+# Disable it more, by hard masking the service
+ln -sfn /dev/null /usr/lib/systemd/user/keybase-redirector.service
+
 echo "Keybase installed successfully"
