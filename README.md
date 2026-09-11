@@ -1,4 +1,4 @@
-# finpilot
+# finicky
 
 A template for building custom bootc operating system images based on the lessons from [Universal Blue](https://universal-blue.org/) and [Bluefin](https://projectbluefin.io). It is designed to be used manually, but is optimized to be bootstraped by GitHub Copilot. After set up you'll have your own custom Linux.
 
@@ -16,12 +16,12 @@ Here are the changes from [Base Image Name]. This image is based on [Bluefin/Baz
 
 ### Added Packages (Build-time)
 
-- **System packages**: `tmux` and `gum` — tmux is the template's package-manager cache smoke test, and gum provides the interactive prompts used by the default ujust recipes.
+- **System packages**: [add your first packages here] - [brief explanation of why]
 
 ### Added Applications (Runtime)
 
-- **CLI Tools (Homebrew)**: neovim, helix - [brief explanation]
-- **GUI Apps (Flatpak)**: Spotify, Thunderbird - [brief explanation]
+- **CLI Tools (Homebrew)**: [add CLI tools here] - [brief explanation]
+- **GUI Apps (Flatpak)**: [add GUI apps here] - [brief explanation]
 
 ### Removed/Disabled
 
@@ -33,7 +33,7 @@ Here are the changes from [Base Image Name]. This image is based on [Bluefin/Baz
 - Desktop environment changes
 - Other notable modifications
 
-_Last updated: [date]_
+_Last updated: 2026-09-11_
 
 > Replace the placeholders above with your actual customizations whenever you add or remove packages, apps, or configuration. This section is what tells users how your image differs from the base.
 
@@ -165,7 +165,7 @@ Renovate automatically updates dependencies and GitHub Actions (including workfl
 
 1. Go to GitHub → Settings → Developer settings → **Personal access tokens** → **Tokens (classic)**
 2. Click **Generate new token (classic)**
-3. Set a note like `renovate-finpilot`
+3. Set a note like `renovate-finicky`
 4. Select scopes: **`repo`** (full control) and **`workflow`** (update workflows)
 5. Click **Generate token** and copy the value
 6. Go to your repository → Settings → Secrets and variables → Actions
@@ -260,14 +260,14 @@ For the automated promotion PR to open, your repository needs:
 Test the candidate from `main` first:
 
 ```bash
-sudo bootc switch --transport registry ghcr.io/your-username/your-repo-name:stable-testing
+sudo bootc switch --transport registry ghcr.io/agriffis/finicky:stable-testing
 sudo systemctl reboot
 ```
 
 After merging the promotion PR, deploy production:
 
 ```bash
-sudo bootc switch --transport registry ghcr.io/your-username/your-repo-name:stable
+sudo bootc switch --transport registry ghcr.io/agriffis/finicky:stable
 sudo systemctl reboot
 ```
 
@@ -287,9 +287,9 @@ Images are signed automatically with **keyless OIDC signing** via Cosign and Git
 
 ```bash
 cosign verify \
-  --certificate-identity-regexp="https://github.com/your-username/your-repo-name/.github/workflows/" \
+  --certificate-identity-regexp="https://github.com/agriffis/finicky/.github/workflows/" \
   --certificate-oidc-issuer="https://token.actions.githubusercontent.com" \
-  ghcr.io/your-username/your-repo-name:stable
+  ghcr.io/agriffis/finicky:stable
 ```
 
 ### Disabling Signing (Not Recommended)

@@ -1,4 +1,4 @@
-# Copilot Instructions for finpilot bootc Image Template
+# Copilot Instructions for finicky bootc Image Template
 
 ## Start here
 
@@ -141,6 +141,6 @@ Before marking work done:
 - [ ] Updated or created the relevant skill file?
 - [ ] Included that learning in this PR?
 
-**Last Updated**: 2026-08-21
+**Last Updated**: 2026-09-11
 **Template Version**: finpilot (Agent UX Overhaul)
 **Maintainer**: Universal Blue Community
