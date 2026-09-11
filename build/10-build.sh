@@ -45,8 +45,25 @@ echo "::group:: Install Packages"
 # gum is required by the default ujust recipes for interactive prompts.
 dnf5 install -y tmux gum
 
-# Example using COPR with isolated pattern:
-# copr_install_isolated "ublue-os/staging" package-name
+# Personal additions
+dnf5 install -y \
+    et \
+    ghostty \
+    gnome-pomodoro \
+    kitty \
+    libvirt \
+    stow \
+    syncthing \
+    virt-install
+
+# Install neovim and tree-sitter from agriffis/neovim-nightly COPR
+copr_install_isolated "agriffis/neovim-nightly" \
+    neovim \
+    tree-sitter
+
+# Install mise from jdxcode/mise COPR
+copr_install_isolated "jdxcode/mise" \
+    mise
 
 echo "::endgroup::"
 
