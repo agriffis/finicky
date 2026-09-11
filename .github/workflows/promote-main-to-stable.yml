@@ -53,4 +53,8 @@ jobs:
       # README.md "Promote to Stable") until an E2E workflow and
       # `e2e_image`/`e2e_suites` inputs are added here.
       run_e2e: false
+      # This fork is owned by a user account, not an org, so the reusable
+      # workflow's default reviewer (<owner>/maintainers team) does not exist
+      # and the review request would fail.
+      request_reviewer: false
     secrets: inherit
