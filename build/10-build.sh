@@ -43,16 +43,17 @@ echo "::group:: Install Packages"
 
 # Install the default packages and verify the DNF cache is working.
 # gum is required by the default ujust recipes for interactive prompts.
+dnf5 install -y tmux gum
+
+# Personal additions
 dnf5 install -y \
     et \
     ghostty \
     gnome-pomodoro \
-    gum \
     kitty \
     libvirt \
     stow \
     syncthing \
-    tmux \
     virt-install
 
 # Install neovim and tree-sitter from agriffis/neovim-nightly COPR

@@ -144,7 +144,10 @@ teardown() {
     [ "$status" -eq 0 ]
 
     mapfile -t calls <"${DNF5_LOG}"
-    [ "${#calls[@]}" -eq 1 ]
+    # Not asserting an exact call count: forks following finpilot-packages
+    # add COPRs and extra dnf5 calls (each COPR alone contributes 3 more via
+    # copr_install_isolated). We only guard that the baseline recipe
+    # dependencies are installed first.
     [ "${calls[0]}" = "install -y tmux gum" ]
 }
 
