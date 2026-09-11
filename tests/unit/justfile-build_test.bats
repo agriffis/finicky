@@ -177,7 +177,7 @@ podman_build_args() {
     local args
     args="$(podman_build_args)"
     [[ "${args}" == *"--build-arg IMAGE_NAME=finpilot"* ]]
-    [[ "${args}" == *"--build-arg IMAGE_VENDOR=projectbluefin"* ]]
+    [[ "${args}" == *"--build-arg IMAGE_VENDOR=agriffis"* ]]
     [[ "${args}" == *"--build-arg UBLUE_IMAGE_TAG=stable"* ]]
 }
 
@@ -222,7 +222,7 @@ podman_build_args() {
     args="$(podman_build_args)"
     [[ "${args}" == *"--label org.opencontainers.image.title=finpilot"* ]]
     [[ "${args}" == *"--label org.opencontainers.image.version=44.20260830"* ]]
-    [[ "${args}" == *"--label org.opencontainers.image.vendor=projectbluefin"* ]]
+    [[ "${args}" == *"--label org.opencontainers.image.vendor=agriffis"* ]]
     [[ "${args}" == *"--label org.opencontainers.image.created=2026-08-30T00:00:00Z"* ]]
     [[ "${args}" == *"--label io.artifacthub.package.license=Apache-2.0"* ]]
     [[ "${args}" == *"--label containers.bootc=1"* ]]
