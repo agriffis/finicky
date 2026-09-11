@@ -48,7 +48,6 @@ dnf5 install -y tmux gum
 # Personal additions
 dnf5 install -y \
     et \
-    ghostty \
     gnome-pomodoro \
     kitty \
     libvirt \
