@@ -43,10 +43,26 @@ echo "::group:: Install Packages"
 
 # Install the default packages and verify the DNF cache is working.
 # gum is required by the default ujust recipes for interactive prompts.
-dnf5 install -y tmux gum
+dnf5 install -y \
+    et \
+    ghostty \
+    gnome-pomodoro \
+    gum \
+    kitty \
+    libvirt \
+    stow \
+    syncthing \
+    tmux \
+    virt-install
 
-# Example using COPR with isolated pattern:
-# copr_install_isolated "ublue-os/staging" package-name
+# Install neovim and tree-sitter from agriffis/neovim-nightly COPR
+copr_install_isolated "agriffis/neovim-nightly" \
+    neovim \
+    tree-sitter
+
+# Install mise from jdxcode/mise COPR
+copr_install_isolated "jdxcode/mise" \
+    mise
 
 echo "::endgroup::"
 
