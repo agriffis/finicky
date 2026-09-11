@@ -121,6 +121,22 @@ jobs:
               - 'custom/**'
               - 'Justfile'
 
+      # The Justfile's registry layer cache pushes to GHCR with --cache-to
+      # *during* the build, and the build runs as root (`sudo -E just build`).
+      # Preflight only logs in as the runner user, and push-image's own root
+      # login happens after the build, so without this step the cache push is
+      # anonymous and fails with "denied: permission_denied: write_package"
+      # as soon as the package exists and is publicly readable.
+      - name: Login root podman for registry cache
+        if: env.REGISTRY_CACHE_WRITE == '1'
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          echo "${GITHUB_TOKEN}" | sudo podman login ghcr.io \
+            -u "${ACTOR}" --password-stdin
+
       - name: Build image
         if: steps.detect-changes.outputs.should_build == 'true' || github.event_name != 'pull_request'
         id: build-image
