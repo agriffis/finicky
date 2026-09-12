@@ -34,7 +34,7 @@ description: >-
 | File                          | Trigger                           | Purpose                                                       |
 | ----------------------------- | --------------------------------- | ------------------------------------------------------------- |
 | `build-image.yml`             | push main + stable, manual        | Publish `:stable-testing` (main) or `:stable` (stable)        |
-| `promote-main-to-stable.yml`  | push main, manual                 | Squash promotion PR `main` → `stable` via factory reusable    |
+| `promote-main-to-stable.yml`  | `workflow_run` after a successful `Build and Push Image` on main, docs-only pushes, manual | Squash promotion PR `main` → `stable` via factory reusable    |
 | `sync-stable-to-main.yml`     | push stable                       | Merge direct `stable` hotfixes back to `main` (usually no-op) |
 | `pr-validation.yml`           | PR → main                         | shellcheck + hadolint + pre-commit via `validate-pr`          |
 | `renovate.yml`                | schedule 6h, push renovate config | Self-hosted Renovate runner                                   |
