@@ -12,9 +12,24 @@ name: Promote main to stable
 # org-maintained, and shared with the other image repos (see issues #235/#237).
 
 on:
+  # Promote only after the image the release gate inspects actually exists.
+  # The gate resolves ghcr.io/<owner>/<image>:testing, which build-image.yml
+  # publishes at the very end of a ~20 minute build. Triggering on push raced
+  # that build, so the gate always saw a missing or stale digest and labelled
+  # the promotion PR release/blocked.
+  workflow_run:
+    workflows: ["Build and Push Image"]
+    types:
+      - completed
+  # Pushes that build-image.yml ignores never produce a workflow_run, so mirror
+  # its paths-ignore here. For a docs-only change the existing signed :testing
+  # image is still the correct artifact to gate on.
   push:
     branches:
       - main
+    paths:
+      - "**.md"
+      - ".github/workflows/*validate*.yml"
   workflow_dispatch:
 
 permissions:
@@ -32,6 +47,11 @@ concurrency:
 jobs:
   promote:
     name: Promote main to stable
+    # build-image.yml also runs on stable, and a failed build must not promote.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main')
     uses: projectbluefin/actions/.github/workflows/reusable-promote-squash.yml@e2ccd51b41d9bb3abd9caeac626fb15c95589c3c # v1
     with:
       variants: >-
