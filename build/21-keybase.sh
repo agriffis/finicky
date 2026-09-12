@@ -47,9 +47,9 @@ rmdir /opt
 rm -f /etc/yum.repos.d/keybase.repo
 
 # Disable the root redirector, becuase it's buggy and hangs the system.
-# /usr/bin/keybase-redirector is a symlink into /opt/keybase, which dangles
-# during the build, so operate on the relocated real path instead.
-chmod a-sx /usr/lib/opt/keybase/keybase-redirector
+# /opt/keybase holds only the Electron GUI; the binaries are real files in
+# /usr/bin, so this path is unaffected by the relocation above.
+chmod a-sx /usr/bin/keybase-redirector
 
 # Disable it more, by hard masking the service
 ln -sfn /dev/null /usr/lib/systemd/user/keybase-redirector.service
